@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Krisinformation",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "title": "Enabled",
+      "description": "Enable or disable this module."
+    },
+    "position": {
+      "type": "string",
+      "default": "middle_center",
+      "enum": [
+        "top_left",
+        "top_center",
+        "top_right",
+        "middle_left",
+        "middle_center",
+        "middle_right",
+        "bottom_left",
+        "bottom_center",
+        "bottom_right"
+      ],
+      "title": "Screen Position",
+      "description": "Where to display this module on the mirror screen."
+    },
+    "interval": {
+      "type": "integer",
+      "default": 30,
+      "title": "Update Interval (Seconds)",
+      "description": "Time to wait between data refreshes."
+    },
+    "show_header": {
+      "type": "boolean",
+      "default": true,
+      "title": "Show Header",
+      "description": "Show or hide the module's header/title."
+    }
+  },
+  "required": ["enabled", "position", "interval", "show_header"]
+}

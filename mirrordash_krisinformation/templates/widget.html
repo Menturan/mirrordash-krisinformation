@@ -1,0 +1,33 @@
+<div class="mirrordash-krisinformation-container">
+    {% if show_header %}
+    <h2 class="module-header label-caps">{{ translations.get("title", "Krisinformation") }}</h2>
+    {% endif %}
+    <div class="widget-content">
+        <p class="last-checked">
+            {{ translations.get("last_checked", "Last checked") }}: 
+            <span class="time-value">{{ current_time }}</span>
+        </p>
+    </div>
+</div>
+
+<style>
+.mirrordash-krisinformation-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.mirrordash-krisinformation-container .widget-content {
+    margin-top: var(--label-gap, 8px);
+}
+
+.mirrordash-krisinformation-container .last-checked {
+    font-size: 14px;
+    color: var(--color-standard-gray, #999999);
+}
+
+.mirrordash-krisinformation-container .time-value {
+    color: var(--color-high-contrast, #ffffff);
+    font-weight: 500;
+}
+</style>

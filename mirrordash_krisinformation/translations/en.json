@@ -1,4 +1,6 @@
 {
-  "title": "Krisinformation",
-  "last_checked": "Last checked"
+  "title": "Swedish Crisis Info",
+  "source_attribution": "Source: krisinformation.se",
+  "no_alerts": "No active crisis alerts",
+  "error_fetching": "Error loading crisis alerts"
 }

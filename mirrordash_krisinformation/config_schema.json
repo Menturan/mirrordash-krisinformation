@@ -28,16 +28,82 @@
     },
     "interval": {
       "type": "integer",
-      "default": 30,
+      "default": 300,
       "title": "Update Interval (Seconds)",
-      "description": "Time to wait between data refreshes."
+      "description": "Time to wait between data refreshes (recommended 300s / 5 mins)."
     },
     "show_header": {
       "type": "boolean",
       "default": true,
       "title": "Show Header",
       "description": "Show or hide the module's header/title."
+    },
+    "county": {
+      "type": "string",
+      "default": "",
+      "enum": [
+        "",
+        "01",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "12",
+        "13",
+        "14",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25"
+      ],
+      "enum_titles": [
+        "All Counties",
+        "Stockholm (01)",
+        "Uppsala (03)",
+        "Södermanland (04)",
+        "Östergötland (05)",
+        "Jönköping (06)",
+        "Kronoberg (07)",
+        "Kalmar (08)",
+        "Gotland (09)",
+        "Blekinge (10)",
+        "Skåne (12)",
+        "Halland (13)",
+        "Västra Götaland (14)",
+        "Värmland (17)",
+        "Örebro (18)",
+        "Västmanland (19)",
+        "Dalarna (20)",
+        "Gävleborg (21)",
+        "Västernorrland (22)",
+        "Jämtland (23)",
+        "Västerbotten (24)",
+        "Norrbotten (25)"
+      ],
+      "title": "County Filter",
+      "description": "Filter crisis alerts by specific Swedish county (Län)."
+    },
+    "max_items": {
+      "type": "integer",
+      "default": 3,
+      "title": "Max Alerts",
+      "description": "Maximum number of crisis alerts to display simultaneously."
+    },
+    "show_preamble": {
+      "type": "boolean",
+      "default": true,
+      "title": "Show Preamble",
+      "description": "Show a short summary description for each alert."
     }
   },
-  "required": ["enabled", "position", "interval", "show_header"]
+  "required": ["enabled", "position", "interval", "show_header", "county", "max_items", "show_preamble"]
 }

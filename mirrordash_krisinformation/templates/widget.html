@@ -1,33 +1,238 @@
-<div class="mirrordash-krisinformation-container">
+<div class="krisinfo-container">
     {% if show_header %}
     <h2 class="module-header label-caps">{{ translations.get("title", "Krisinformation") }}</h2>
     {% endif %}
-    <div class="widget-content">
-        <p class="last-checked">
-            {{ translations.get("last_checked", "Last checked") }}: 
-            <span class="time-value">{{ current_time }}</span>
-        </p>
+
+    <div class="krisinfo-body">
+        {% if error %}
+            <div class="krisinfo-error">
+                <i data-lucide="alert-circle" class="krisinfo-icon"></i>
+                <span>{{ error }}</span>
+            </div>
+        {% elif not alerts %}
+            <div class="krisinfo-no-alerts">
+                <i data-lucide="check-circle" class="krisinfo-icon success-icon"></i>
+                <span>{{ translations.get("no_alerts", "Inga aktiva krismeddelanden") }}</span>
+            </div>
+        {% else %}
+            <div class="krisinfo-items">
+                {% for alert in alerts %}
+                    <div class="krisinfo-item">
+                        <div class="krisinfo-item-header">
+                            <span class="krisinfo-badge">
+                                <i data-lucide="alert-triangle" class="krisinfo-icon alert-icon"></i>
+                                <span class="krisinfo-time">{{ alert.time }}</span>
+                            </span>
+                        </div>
+                        <div class="krisinfo-headline">{{ alert.headline }}</div>
+                        {% if show_preamble and alert.preamble %}
+                            <div class="krisinfo-preamble">{{ alert.preamble }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="krisinfo-footer">
+        <span>{{ translations.get("source_attribution", "Källa: krisinformation.se") }}</span>
     </div>
 </div>
 
 <style>
-.mirrordash-krisinformation-container {
+.krisinfo-container {
     display: flex;
     flex-direction: column;
+    color: var(--color-standard-gray, #999999);
+    font-family: var(--mirror-font-family, sans-serif);
+    box-sizing: border-box;
     width: 100%;
 }
 
-.mirrordash-krisinformation-container .widget-content {
-    margin-top: var(--label-gap, 8px);
+/* Snapping alignment based on mirror region containers */
+#top_right .krisinfo-container,
+#middle_right .krisinfo-container,
+#bottom_right .krisinfo-container {
+    align-items: flex-end;
+    text-align: right;
 }
 
-.mirrordash-krisinformation-container .last-checked {
-    font-size: 14px;
-    color: var(--color-standard-gray, #999999);
+#top_left .krisinfo-container,
+#middle_left .krisinfo-container,
+#bottom_left .krisinfo-container {
+    align-items: flex-start;
+    text-align: left;
 }
 
-.mirrordash-krisinformation-container .time-value {
-    color: var(--color-high-contrast, #ffffff);
-    font-weight: 500;
+#top_center .krisinfo-container,
+#middle_center .krisinfo-container,
+#bottom_center .krisinfo-container {
+    align-items: center;
+    text-align: center;
+}
+
+.krisinfo-body {
+    width: 100%;
+    margin-top: 8px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.krisinfo-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.krisinfo-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-left: 2px solid var(--color-dimmed-charcoal, #666666);
+    padding-left: 12px;
+}
+
+#top_right .krisinfo-item,
+#middle_right .krisinfo-item,
+#bottom_right .krisinfo-item {
+    border-left: none;
+    border-right: 2px solid var(--color-dimmed-charcoal, #666666);
+    padding-left: 0;
+    padding-right: 12px;
+}
+
+.krisinfo-item-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+#top_right .krisinfo-item-header,
+#middle_right .krisinfo-item-header,
+#bottom_right .krisinfo-item-header {
+    justify-content: flex-end;
+}
+
+#top_left .krisinfo-item-header,
+#middle_left .krisinfo-item-header,
+#bottom_left .krisinfo-item-header {
+    justify-content: flex-start;
+}
+
+#top_center .krisinfo-item-header,
+#middle_center .krisinfo-item-header,
+#bottom_center .krisinfo-item-header {
+    justify-content: center;
+}
+
+.krisinfo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.krisinfo-time {
+    color: var(--color-secondary-grey, #999999);
+}
+
+.krisinfo-headline {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-primary-white, #ffffff);
+    word-break: break-word;
+}
+
+.krisinfo-preamble {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: var(--color-secondary-grey, #999999);
+    margin-top: 4px;
+    word-break: break-word;
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.krisinfo-icon {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2px;
+    flex-shrink: 0;
+}
+
+.alert-icon {
+    color: var(--color-warning, #f59e0b);
+}
+
+.success-icon {
+    color: var(--color-success, #10b981);
+}
+
+.krisinfo-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-danger, #ef4444);
+    font-size: 13px;
+    padding: 8px 0;
+}
+
+.krisinfo-no-alerts {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-secondary-grey, #999999);
+    font-size: 13px;
+    padding: 8px 0;
+}
+
+#top_center .krisinfo-no-alerts,
+#middle_center .krisinfo-no-alerts,
+#bottom_center .krisinfo-no-alerts {
+    justify-content: center;
+}
+
+#top_right .krisinfo-no-alerts,
+#middle_right .krisinfo-no-alerts,
+#bottom_right .krisinfo-no-alerts {
+    justify-content: flex-end;
+}
+
+.krisinfo-footer {
+    margin-top: 12px;
+    font-size: 10px;
+    color: var(--color-dimmed-charcoal, #666666);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: 100%;
+}
+
+#top_right .krisinfo-footer,
+#middle_right .krisinfo-footer,
+#bottom_right .krisinfo-footer {
+    text-align: right;
+}
+
+#top_left .krisinfo-footer,
+#middle_left .krisinfo-footer,
+#bottom_left .krisinfo-footer {
+    text-align: left;
+}
+
+#top_center .krisinfo-footer,
+#middle_center .krisinfo-footer,
+#bottom_center .krisinfo-footer {
+    text-align: center;
 }
 </style>

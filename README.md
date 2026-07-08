@@ -1,29 +1,18 @@
 # mirrordash-krisinformation
- 
-Swedish crisis and societal disruption information from Krisinformation.se
- 
-## Installation
- 
-Install in editable mode for local development:
-```bash
-uv pip install -e .
-```
 
-## Running Tests
+Swedish crisis and societal disruption information from Krisinformation.se.
 
-Run the starter tests using pytest:
-```bash
-pytest
-```
+This module retrieves active crisis announcements and alerts directly from the official Krisinformation API v3 and displays them inside a clean card.
+
+## Features
+
+- **County Filtering**: Filter announcements by standard Swedish counties (Län) via the built-in dropdown setting.
 
 ## Configuration & API Keys
 
-Provide instructions here on how to retrieve necessary API keys or other credentials.
-* **API Key Retrieval**: (e.g., "Sign up at [Provider Portal](https://example.com) to get your API key.")
-* **Setup**: Enter the credentials in the visual configuration editor in the Admin Dashboard.
+* **API Key Retrieval**: No API key is required. This module uses the public open data endpoint provided by Krisinformation.se.
+* **Setup**: Open the MirrorDash Admin Dashboard, navigate to the **Modules** page, add `mirrordash_krisinformation`, and select your desired county filter.
 
 ## Screenshot
-
-Place a preview screenshot of your widget named `screenshot.png` in the root of this module directory. This image will be displayed inside the MirrorDash module store.
 
 ![Screenshot](screenshot.png)

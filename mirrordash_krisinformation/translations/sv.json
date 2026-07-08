@@ -1,4 +1,6 @@
 {
   "title": "Krisinformation",
-  "last_checked": "Senast kontrollerad"
+  "source_attribution": "Källa: krisinformation.se",
+  "no_alerts": "Inga aktiva krismeddelanden",
+  "error_fetching": "Kunde inte hämta krismeddelanden"
 }

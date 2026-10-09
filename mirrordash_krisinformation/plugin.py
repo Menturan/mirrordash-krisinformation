@@ -45,7 +45,7 @@ class KrisinformationModule:
         if self.county:
             params["counties"] = self.county
         # On a failure, data is the last good answer (also after a restart)
-        data, error = await self.fetch_json(URL, params=params)
+        data, error = await self.fetch_json(URL, params=params, max_age=self.interval)
         return self.render_template(
             "widget.html",
             alerts=parse(data, self.max_items),

@@ -33,7 +33,8 @@ def test_module_initialization():
 def test_alerts_from_the_api():
     m = module((API_DATA, None), county="01", max_items=2)
     asyncio.run(m.render())
-    m.fetch_json.assert_awaited_once_with(URL, params={"format": "json", "language": "sv", "counties": "01"})
+    m.fetch_json.assert_awaited_once_with(URL, params={"format": "json", "language": "sv", "counties": "01"},
+                                          max_age=m.interval)
     alerts = m.render_template.call_args.kwargs["alerts"]
     assert [a["headline"] for a in alerts] == ["Viktigt meddelande till allmänheten", "Vägar avstängda på grund av översvämning"]
     assert [a["time"] for a in alerts] == ["21:00", "21:15"]

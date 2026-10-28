@@ -1,8 +1,4 @@
-import asyncio
-import logging
 from datetime import datetime
-
-logger = logging.getLogger("mirrordash.modules.mirrordash_krisinformation")
 
 URL = "https://api.krisinformation.se/v3/news"
 
@@ -44,21 +40,11 @@ class KrisinformationModule:
         params = {"format": "json", "language": self.language}
         if self.county:
             params["counties"] = self.county
-        # On a failure, data is the last good answer (also after a restart)
-        data, error = await self.fetch_json(URL, params=params, max_age=self.interval)
+        # On a failure, data is the last good answer (also after a restart); one younger than interval is reused
+        data, error = await self.fetch_json(URL, params=params)
         return self.render_template(
             "widget.html",
             alerts=parse(data, self.max_items),
             show_preamble=self.show_preamble,
             error=self.translate("error_fetching", "Error loading crisis alerts") if data is None else None,
         )
-
-    async def run_loop(self, broadcast_func):
-        while True:
-            try:
-                await broadcast_func(self.name, await self.render())
-            except asyncio.CancelledError:
-                raise  # the mirror is stopping this module: let it
-            except Exception as e:
-                logger.error(f"{self.name}: {e}", exc_info=True)
-            await asyncio.sleep(self.interval)

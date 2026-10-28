@@ -1,7 +1,6 @@
 import asyncio
 from unittest.mock import AsyncMock, MagicMock
 
-import pytest
 
 from mirrordash_krisinformation.plugin import URL, KrisinformationModule
 
@@ -33,8 +32,7 @@ def test_module_initialization():
 def test_alerts_from_the_api():
     m = module((API_DATA, None), county="01", max_items=2)
     asyncio.run(m.render())
-    m.fetch_json.assert_awaited_once_with(URL, params={"format": "json", "language": "sv", "counties": "01"},
-                                          max_age=m.interval)
+    m.fetch_json.assert_awaited_once_with(URL, params={"format": "json", "language": "sv", "counties": "01"})
     alerts = m.render_template.call_args.kwargs["alerts"]
     assert [a["headline"] for a in alerts] == ["Viktigt meddelande till allmänheten", "Vägar avstängda på grund av översvämning"]
     assert [a["time"] for a in alerts] == ["21:00", "21:15"]
@@ -52,11 +50,3 @@ def test_last_answer_is_shown_when_offline_and_error_without_one():
     assert m.render_template.call_args.kwargs["alerts"] == []
     assert m.render_template.call_args.kwargs["error"] == "Error loading crisis alerts"
 
-
-@pytest.mark.asyncio
-async def test_run_loop_broadcasts_and_stops_when_cancelled():
-    m = module(([], None))
-    broadcast = AsyncMock(side_effect=asyncio.CancelledError)
-    with pytest.raises(asyncio.CancelledError):
-        await m.run_loop(broadcast)
-    broadcast.assert_awaited_once_with("mirrordash_krisinformation", "<div>Mock Render</div>")

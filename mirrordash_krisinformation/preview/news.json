@@ -1,0 +1,28 @@
+[
+ {
+  "identifier": "sample-1",
+  "published": "2026-11-02T08:15:00+01:00",
+  "updated": "2026-11-02T08:15:00+01:00",
+  "headline": "Halka väntas i morgon bitti",
+  "preamble": "Kör försiktigt och räkna med längre restider på morgonen.",
+  "area": [
+   {
+    "type": "County",
+    "description": "Stockholms län"
+   }
+  ]
+ },
+ {
+  "identifier": "sample-2",
+  "published": "2026-11-01T16:40:00+01:00",
+  "updated": "2026-11-01T16:40:00+01:00",
+  "headline": "Planerat avbrott i vattnet",
+  "preamble": "Vattnet stängs av mellan klockan 9 och 12 i delar av kommunen.",
+  "area": [
+   {
+    "type": "County",
+    "description": "Stockholms län"
+   }
+  ]
+ }
+]

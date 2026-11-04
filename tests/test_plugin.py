@@ -1,8 +1,8 @@
 import asyncio
+from datetime import date, datetime
 from unittest.mock import AsyncMock, MagicMock
 
-
-from mirrordash_krisinformation.plugin import URL, KrisinformationModule
+from mirrordash_krisinformation.plugin import URL, KrisinformationModule, when
 
 # The API's answer, as it looks today (camelCase field names)
 API_DATA = [
@@ -35,7 +35,7 @@ def test_alerts_from_the_api():
     m.fetch_json.assert_awaited_once_with(URL, params={"format": "json", "language": "sv", "counties": "01"})
     alerts = m.render_template.call_args.kwargs["alerts"]
     assert [a["headline"] for a in alerts] == ["Viktigt meddelande till allmänheten", "Vägar avstängda på grund av översvämning"]
-    assert [a["time"] for a in alerts] == ["21:00", "21:15"]
+    assert len(alerts) == 2 and all(a["time"] for a in alerts)
     assert m.render_template.call_args.kwargs["error"] is None
 
 
@@ -50,3 +50,12 @@ def test_last_answer_is_shown_when_offline_and_error_without_one():
     assert m.render_template.call_args.kwargs["alerts"] == []
     assert m.render_template.call_args.kwargs["error"] == "Error loading crisis alerts"
 
+
+def test_today_shows_the_time_older_how_many_days_ago():
+    translate = lambda key, default: default
+    published = datetime(2026, 11, 3, 12, 33).astimezone()  # 12:33 in the mirror's time zone
+    stamp = published.isoformat()
+    assert when(stamp, date(2026, 11, 3), translate) == "12:33"
+    assert when(stamp, date(2026, 11, 4), translate) == "Yesterday"
+    assert when(stamp, date(2026, 11, 8), translate) == "5 days ago"
+    assert when("", date(2026, 11, 8), translate) == ""

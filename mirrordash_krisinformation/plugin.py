@@ -1,16 +1,29 @@
-from datetime import datetime
+from datetime import date, datetime
 
 URL = "https://api.krisinformation.se/v3/news"
 
 
-def parse(items, max_items: int) -> list[dict]:
-    """The API's news items -> what the template shows (the API names its fields in camelCase)."""
+def when(published: str, today: date, translate) -> str:
+    """Today's messages show their time, older ones how many days ago (calendar days, in the mirror's time zone)."""
+    try:
+        moment = datetime.fromisoformat(published).astimezone()
+    except ValueError:
+        return ""
+    days = (today - moment.date()).days
+    if days <= 0:
+        return moment.strftime("%H:%M")
+    if days == 1:
+        return translate("yesterday", "Yesterday")
+    return translate("days_ago", "{n} days ago").format(n=days)
+
+
+def parse(items, max_items: int, today: date, translate) -> list[dict]:
+    """The API's news items -> what the template shows (the API names its fields in camelCase).
+    The API answers only the messages Krisinformation still counts as current (it ignores its days parameter),
+    so there is no age filter here."""
     alerts = []
     for item in (items if isinstance(items, list) else [])[:max_items]:
-        try:
-            time = datetime.fromisoformat(item.get("published", "")).strftime("%H:%M")
-        except ValueError:
-            time = ""
+        time = when(item.get("published", ""), today, translate)
         alerts.append({
             "id": item.get("identifier"),
             "headline": item.get("headline", ""),
@@ -44,7 +57,7 @@ class KrisinformationModule:
         data, error = await self.fetch_json(URL, params=params)
         return self.render_template(
             "widget.html",
-            alerts=parse(data, self.max_items),
+            alerts=parse(data, self.max_items, date.today(), self.translate),
             show_preamble=self.show_preamble,
             error=self.translate("error_fetching", "Error loading crisis alerts") if data is None else None,
         )

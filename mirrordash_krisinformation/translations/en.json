@@ -2,5 +2,7 @@
   "title": "Swedish Crisis Info",
   "source_attribution": "Source: krisinformation.se",
   "no_alerts": "No active crisis alerts",
-  "error_fetching": "Error loading crisis alerts"
+  "error_fetching": "Error loading crisis alerts",
+  "yesterday": "Yesterday",
+  "days_ago": "{n} days ago"
 }

@@ -7,6 +7,7 @@ This module retrieves active crisis announcements and alerts directly from the o
 ## Features
 
 - **County Filtering**: Filter announcements by standard Swedish counties (Län) via the built-in dropdown setting.
+- **Current messages only**: shows what Krisinformation itself still lists as current; today's messages show their time, older ones how many days ago.
 
 ## Installation
 

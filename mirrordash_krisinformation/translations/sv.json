@@ -2,5 +2,7 @@
   "title": "Krisinformation",
   "source_attribution": "Källa: krisinformation.se",
   "no_alerts": "Inga aktiva krismeddelanden",
-  "error_fetching": "Kunde inte hämta krismeddelanden"
+  "error_fetching": "Kunde inte hämta krismeddelanden",
+  "yesterday": "I går",
+  "days_ago": "För {n} dagar sedan"
 }

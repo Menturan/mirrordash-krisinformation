@@ -4,12 +4,6 @@
   "description": "Swedish crisis and disruption alerts from Krisinformation.se, for your county.",
   "type": "object",
   "properties": {
-    "interval": {
-      "type": "integer",
-      "default": 300,
-      "title": "Update Interval (Seconds)",
-      "description": "Time to wait between data refreshes (recommended 300s / 5 mins)."
-    },
     "show_header": {
       "type": "boolean",
       "default": true,
@@ -81,6 +75,13 @@
       "default": true,
       "title": "Show Preamble",
       "description": "Show a short summary description for each alert."
+    },
+    "interval": {
+      "type": "integer",
+      "default": 300,
+      "title": "Update Interval (Seconds)",
+      "description": "Time to wait between data refreshes (recommended 300s / 5 mins).",
+      "group": "Advanced"
     }
   },
   "required": [

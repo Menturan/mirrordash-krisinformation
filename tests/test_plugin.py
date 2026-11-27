@@ -59,3 +59,12 @@ def test_today_shows_the_time_older_how_many_days_ago():
     assert when(stamp, date(2026, 11, 4), translate) == "Yesterday"
     assert when(stamp, date(2026, 11, 8), translate) == "5 days ago"
     assert when("", date(2026, 11, 8), translate) == ""
+
+
+def test_preferred_width_is_declared_in_rem():
+    import json
+    from pathlib import Path
+    import mirrordash_krisinformation
+    schema = json.loads((Path(mirrordash_krisinformation.__file__).parent / "config_schema.json").read_text())
+    assert schema["preferred_width"] == "24rem"
+    assert "width_percent" not in schema["properties"]
